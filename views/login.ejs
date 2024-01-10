@@ -1,0 +1,49 @@
+<%- include('partials/header'); -%>
+
+<div id="contact" class="contact">
+    <div class="section-title" style="margin-top: 5%;">
+        <h2>Get Started</h2>
+        <p>Login to Your Account or <a href="/register">Register Now</a></p>
+      </div>
+    <div class="container">
+        <form action="/login" method="post" role="form" class="php-email-form">
+            <div class="form-group mt-3">
+              <label for="name">Email</label>
+              <input type="text" class="form-control" name="email" id="email" placeholder="Email" required>
+            </div>
+            <div class="form-group mt-3">
+                <label for="name">Password</label>
+                <input type="password" class="form-control mb-3" name="password" id="passwordField" placeholder="Password" required>
+                <span>
+                  <input class="form-check-input" type="checkbox" value="" id="toggleCheckbox">
+                  <label for="flexCheckDefault">
+                    Show/Hide
+                  </label>
+                </span>            
+            </div>
+            <div class="text-center"><button type="submit">Login</button></div>
+          </form>
+    </div>
+    
+  </div>
+
+  <%- include('partials/footer'); -%>
+
+  <script>
+    $(document).ready(function() {
+    $('#toggleCheckbox').on('change', function() {
+        var passwordField = $('#passwordField');
+        
+        // Check if the checkbox is checked
+        var isChecked = $(this).prop('checked');
+        
+        // Toggle between password and text based on checkbox state
+        if (isChecked) {
+            passwordField.attr('type', 'text');
+        } else {
+            passwordField.attr('type', 'password');
+        }
+    });
+});
+
+  </script>

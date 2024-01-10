@@ -1,0 +1,141 @@
+<%- include('partials/header-logged-in'); -%>
+<section id="about" class="about">
+    <div class="container">
+      <div class="row justify-content-between">
+        <div class="col-lg-5 d-flex align-items-center justify-content-center about-img">
+          <img src="<%= user.image %>" class="img-fluid" alt="" data-aos="zoom-in" width="350" height="350">
+        </div>
+        <div class="col-lg-6 pt-5 pt-lg-0">
+          <h3 data-aos="fade-up"><%= user.name %></h3>
+          <p data-aos="fade-up" data-aos-delay="100">
+            <strong>Birthday:</strong> <%= new Date(user.dob).toLocaleDateString('en-GB') %>  <br>
+            <strong>Address:</strong> <%= user.address %>  <br>
+            <strong>Email:</strong> <%= user.email %>  <br>
+            <strong>Phone:</strong> <%= user.phone %> <br>
+            <strong>Bio:</strong> <%= user.bio %>          
+        </p>
+          <div class="row">
+            <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
+              <i class="bx bx-receipt"></i>
+              <h4>Skills</h4>
+              <p>
+                <%for (let i = 0; i < user.skills.length; i++) { %>
+                    <%=  user.skills[i] %> <br>
+                <% } %>
+              </p>
+            </div>
+            <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
+              <i class="bx bx-world"></i>
+              <h4>Languages</h4>
+              <p>
+                <%for (let i = 0; i < user.languages.length; i++) { %>
+                    <%=  user.languages[i] %> <br>
+                <% } %>
+              </p>         
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+</section>
+<section id="services" class="services section-bg">
+        <div class="container" data-aos="fade-up">
+  
+          <div class="section-title">
+            <p>Education</p>
+          </div>
+  
+          <div class="row">
+            <%for (let i = 0; i < user.degrees.length; i++) { %>
+                <div class="col-md-6 col-lg-6 d-flex" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="icon-box flex-grow-1">
+                      <div class="icon"><i class="bx bxs-graduation"></i></div>
+                      <h4 class="title"><%=  user.degrees[i].degreeName %></h4>
+                      <p class="description" style="font-style: italic;font-size: 14px;
+                        font-weight: 700;
+                        padding-bottom: 0;
+                        line-height: 1px;
+                        margin-bottom: 15px;
+                        color: #c2b7b1;"><%=  user.degrees[i].school %> </p>
+                      <p class="description"><%=  user.degrees[i].city %>,<%=  user.degrees[i].country %> </p>
+                      <p class="description">
+                        <% if (user.degrees[i].endDate != null && user.degrees[i].endDate != '') { %>
+                          <%=  new Date(user.degrees[i].startDate).toLocaleDateString('en-GB',{ year: 'numeric' }) %> - <%= new Date(user.degrees[i].endDate).toLocaleDateString('en-GB',{ year: 'numeric' })%> 
+                          <% } else { %>
+                            <%=  new Date(user.degrees[i].startDate).toLocaleDateString('en-GB',{ year: 'numeric' }) %> - Present
+                        <% } %>
+                      </p>
+                      
+                    </div>
+                </div>
+            <% } %>
+  
+          </div>
+  
+        </div>
+</section>
+<section id="services" class="services">
+    <div class="container" data-aos="fade-up">
+
+      <div class="section-title">
+        <p>Professional Experience</p>
+      </div>
+
+      <div class="row">
+        <%for (let i = 0; i < user.jobs.length; i++) { %>
+            <div class="col-md-6 col-lg-6 d-flex" data-aos="zoom-in" data-aos-delay="100">
+                <div class="icon-box flex-grow-1">
+                  <div class="icon"><i class="bx bx-briefcase"></i></div>
+                  <h4 class="title"><%=  user.jobs[i].employer %></h4>
+                  <p class="description" style="font-style: italic;font-size: 14px;
+                  font-weight: 700;
+                  padding-bottom: 0;
+                  line-height: 1px;
+                  margin-bottom: 15px;
+                  color: #c2b7b1;"><%=  user.jobs[i].jobtitle %> </p>
+                  <p class="description">
+                    <% if (user.jobs[i].endDate != null && user.jobs[i].endDate != '') { %>
+                      <%=  new Date(user.jobs[i].startDate).toLocaleDateString('en-GB',{ year: 'numeric' }) %> - <%= new Date(user.jobs[i].endDate).toLocaleDateString('en-GB',{ year: 'numeric' })%> 
+                      <% } else { %>
+                        <%=  new Date(user.jobs[i].startDate).toLocaleDateString('en-GB',{ year: 'numeric' }) %> - Present
+                    <% } %>
+                  </p>
+                </div>
+            </div>
+        <% } %>
+
+      </div>
+
+    </div>
+</section>
+<section id="services" class="services section-bg">
+    <div class="container" data-aos="fade-up">
+
+      <div class="section-title">
+        <p>Projects</p>
+      </div>
+
+      <div class="row">
+        <%for (let i = 0; i < user.projects.length; i++) { %>
+            <div class="col-md-6 col-lg-3 d-flex" data-aos="zoom-in" data-aos-delay="100">
+                <div class="icon-box flex-grow-1">
+                  <div class="icon"><i class="bx bx-folder"></i></div>
+                  <h4 class="title"><%=  user.projects[i].projectTitle %></h4>
+                  <p class="description" style="font-style: italic;"><%=  user.projects[i].subTitle %> </p>
+                  <p class="description">
+                    <% if (user.projects[i].endDate != null && user.projects[i].endDate != '') { %>
+                      <%=  new Date(user.projects[i].startDate).toLocaleDateString('en-GB') %> - <%= new Date(user.projects[i].endDate).toLocaleDateString('en-GB')%>
+                      <% } else { %>
+                      <%=  new Date(user.projects[i].startDate).toLocaleDateString('en-GB') %> - Present
+                    <% } %>
+                  </p>
+                </div>
+            </div>
+        <% } %>
+
+      </div>
+
+    </div>
+</section>
+  <%- include('partials/footer'); -%>

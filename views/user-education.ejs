@@ -1,0 +1,77 @@
+<%- include('partials/header'); -%>
+<div id="contact" class="contact">
+    <div class="section-title" style="margin-top: 5%;">
+        <h2>Register</h2>
+        <p>Education</p>
+      </div>
+    <div class="container">
+        <form action="/skills" method="post" role="form" class="php-email-form">
+            <div id="degreeContainer">
+                <div class="mb-4">
+                    <label for="degree" class="form-label" id="degree-label">Degree</label>
+                    <input type="name" name="degreeName" class="form-control" id="degree"
+                        placeholder="Enter your degree" required>
+                </div>
+                <div class="mb-4">
+                    <label for="school" class="form-label">School</label>
+                    <input type="name" name="school" class="form-control" id="school"
+                        placeholder="Enter school" required>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-6">
+                        <label for="city" class="form-label">City</label>
+                            <input type="name" name="city" class="form-control" id="city"
+                                placeholder="Enter city" required>
+                    </div>
+                    <div class="col-6">
+                        <label for="country" class="form-label">Country</label>
+                        <input type="name" name="country" class="form-control" id="country"
+                            placeholder="Enter country" required>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-6">
+                        <label for="start" class="form-label">Start Date</label>
+                        <input id="start" name="startDate" class="form-control" type="date" required/>
+                    </div>
+                    <div class="col-6">
+                        <label for="end" class="form-label">End Date</label>
+                        <input id="end" name="endDate" class="form-control" type="date" required/>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="button" id="addDegree">Add Another Degree</button>
+                <button type="submit">Next ></button></div>
+          </form>
+    </div>
+    
+  </div>
+
+  <%- include('partials/footer'); -%>
+
+  
+  
+  <script>
+    $(document).ready(function () {
+        var degreeCounter = 1;
+        $('#addDegree').click(function () {
+            degreeCounter++;
+            var newDegree = $('#degreeContainer').first().clone();
+            newDegree.find('input').val('');
+            newDegree.find('#degree-label').text('Degree ' + degreeCounter);
+            newDegree.prepend('<hr class="hr" />');
+            newDegree.insertBefore($('.text-center'));
+        });
+    });
+
+    $(document).ready(function() {
+        $('#toggleCheckbox').on('change', function() {
+            if ($(this).is(':checked')) {
+                $('#end').prop('disabled', true).prop('required', false).val('');
+            } else {
+                $('#end').prop('disabled', false).prop('required', true);
+            }
+        });
+    });
+</script>
