@@ -5,7 +5,7 @@
         <p>Education</p>
       </div>
     <div class="container">
-        <form action="/skills" method="post" role="form" class="php-email-form">
+        <form id="degrees-form" action="/skills" method="post" role="form" class="php-email-form">
             <div id="degreeContainer">
                 <div class="mb-4">
                     <label for="degree" class="form-label" id="degree-label">Degree</label>
@@ -39,6 +39,9 @@
                         <input id="end" name="endDate" class="form-control" type="date" required/>
                     </div>
                 </div>
+                <div class="d-flex flex-row-reverse">
+                    <button type="button" id="deletedegree" class=" mb-4">Delete</button>
+                </div>
             </div>
             <div class="text-center">
                 <button type="button" id="addDegree">Add Another Degree</button>
@@ -54,15 +57,31 @@
   
   <script>
     $(document).ready(function () {
+        var fieldCount = $("#degreeContainer div").length
+
+        console.log(fieldCount)
+
         var degreeCounter = 1;
         $('#addDegree').click(function () {
             degreeCounter++;
             var newDegree = $('#degreeContainer').first().clone();
             newDegree.find('input').val('');
+            fieldCount = fieldCount + 9
             newDegree.find('#degree-label').text('Degree ' + degreeCounter);
             newDegree.prepend('<hr class="hr" />');
             newDegree.insertBefore($('.text-center'));
         });
+
+        $("#degrees-form").on("click", "#deletedegree", function (e) {
+                    e.preventDefault();
+                    if (fieldCount > 9) {
+                        $(this).parent().parent().remove();
+                        fieldCount = fieldCount - 9
+
+                    } else {
+                        alert("At least one field is required.");
+                    }
+                });
     });
 
     $(document).ready(function() {

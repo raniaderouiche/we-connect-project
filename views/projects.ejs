@@ -5,7 +5,7 @@
         <p>Projects</p>
       </div>
     <div class="container">
-        <form action="/finish" method="post" role="form" class="php-email-form">
+        <form id="projects-form" action="/finish" method="post" role="form" class="php-email-form">
             <div id="projectContainer">
                 <div class="mb-4">
                     <label for="title" class="form-label" id="project-label">Project title</label>
@@ -31,9 +31,12 @@
                         </span>
                     </div>
                 </div>
+                <div class="d-flex flex-row-reverse">
+                    <button type="button" id="deleteproject" class=" mb-4">Delete</button>
+                </div>
             </div>
             <div class="text-center">
-                <button type="button" id="addproject">Add Another project</button>
+                <button type="button" id="addproject">Add Another Project</button>
                 <button type="submit">Finish ></button></div>
           </form>
     </div>
@@ -46,9 +49,11 @@
   
   <script>
     $(document).ready(function () {
+        var fieldCount = $("#projectContainer div").length
         var projectCounter = 1;
         $('#addproject').click(function () {
             projectCounter++;
+            fieldCount = fieldCount + 9
             var newproject = $('#projectContainer').first().clone();
             newproject.find('input').val('');
             newproject.find('#project-label').text('Project ' + projectCounter);
@@ -56,6 +61,17 @@
             newproject.find('#toggleCheckbox').prop('checked', false);            newproject.prepend('<hr class="hr" />');
             newproject.insertBefore($('.text-center'));
         });
+
+        $("#projects-form").on("click", "#deleteproject", function (e) {
+                    e.preventDefault();
+                    if (fieldCount > 6) {
+                        $(this).parent().parent().remove();
+                        fieldCount = fieldCount - 9
+
+                    } else {
+                        alert("At least one field is required.");
+                    }
+                });
     });
 
     $(document).ready(function() {

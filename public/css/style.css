@@ -627,6 +627,29 @@ section {
   border-bottom: 3px solid #fff;
 }
 
+/* Custom CSS for alignment */
+.post-text {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.post img {
+  margin-right: 20px;
+  border-radius: 50%;
+}
+
+.services .post {
+  padding: 30px;
+  position: relative;
+  overflow: hidden;
+  margin: 0 0 40px 0;
+  background: #fff;
+  box-shadow: 0 10px 29px 0 rgba(68, 88, 144, 0.1);
+  transition: all 0.3s ease-in-out;
+  border-radius: 15px;
+  border-bottom: 3px solid #fff;
+}
+
 .services .icon-box:hover {
   transform: translateY(-5px);
   border-color: #ef7f4d;
@@ -645,6 +668,12 @@ section {
   font-size: 18px;
 }
 
+.services .poster-name {
+  font-weight: 700;
+  margin-bottom: 2px;
+  font-size: 18px;
+}
+
 .services .title a {
   color: #111;
 }
@@ -653,6 +682,13 @@ section {
   font-size: 15px;
   line-height: 28px;
   margin-bottom: 0;
+}
+
+.services .content {
+  font-size: 15px;
+  line-height: 28px;
+  margin-bottom: 15px;
+  padding-left: 15px;
 }
 
 .services .logout-button {
@@ -667,6 +703,21 @@ section {
 }
 
 .services .logout-button:hover {
+  background-color: #dd6b3d;
+}
+
+.services .like-button {
+  display: block;
+  background-color: #ef7f4d;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.services .like-button:hover {
   background-color: #dd6b3d;
 }
 
@@ -1060,12 +1111,12 @@ section {
 # Contact Us
 --------------------------------------------------------------*/
 .contact .info {
-  border-top: 3px solid #eb5d1e;
-  border-bottom: 3px solid #eb5d1e;
+  /* border-top: 3px solid #eb5d1e;
+  border-bottom: 3px solid #eb5d1e; */
   padding: 30px;
-  background: #fff;
+  /* background: #fff; */
   width: 100%;
-  box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.12);
+  /* box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.12); */
 }
 
 .contact .info i {

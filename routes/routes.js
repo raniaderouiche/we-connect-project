@@ -27,7 +27,7 @@ router.get("/",(req,res)=>{
 
 router.get('/test', (req, res) => {
     
-    res.render('projects');
+    res.render('professional-skills');
 });
 
 router.get("/login",(req,res)=>{
@@ -51,14 +51,14 @@ router.post('/login', async (req, res) => {
         return res.status(401).send('Invalid credentials');
       }
   
-      req.session.user = user; // Store user in session
-      res.redirect('/home'); // Redirect to dashboard after login
+      req.session.user = user; 
+      res.redirect('/home'); 
     } catch (error) {
       res.status(500).send('Error logging in');
     }
   });
 
-  // Logout route
+// Logout route
 router.get('/logout', (req, res) => {
     req.session.destroy((err) => {
       if (err) {
@@ -66,6 +66,54 @@ router.get('/logout', (req, res) => {
       }
       res.redirect('/');
     });
+});
+
+router.get('/home', (req, res) => {
+    const loggedInUser = req.session.user;
+    let posts = [];
+    let users_list = [];
+    if(req.session.user ==null){
+        res.redirect('/');
+    }else{
+        User.find({})
+        .then(users => {
+          if (users && users.length > 0) {
+            users_list = users
+            users_list.forEach(u => {
+                posts_list =[]
+                if(u.posts != '' && u.posts != null){
+                    posts_list = u.posts
+                    posts_list.forEach(p => {
+                        posts.push(p)
+                    })
+                }
+            })
+
+            posts.sort((a, b) => b.creationDate - a.creationDate);
+
+            console.log(posts)
+            const page = parseInt(req.query.page) || 1; 
+            const pageSize = 4; 
+            const startIndex = (page - 1) * pageSize;
+            const endIndex = page * pageSize;
+            const paginatedData = posts.slice(startIndex, endIndex); 
+            const totalPages = Math.ceil(posts.length / pageSize); 
+            const loggedInUser = req.session.user;
+
+            res.render("homepage",{user: loggedInUser,
+                data: paginatedData,
+                totalPages,
+                currentPage: page
+            })
+
+          } else {
+            console.log('No users found');
+          }
+        })
+        .catch(err => {
+          console.error('Error:', err);
+        });
+    }
 });
 
 router.get('/settings-updated', (req, res) => {
@@ -118,23 +166,22 @@ router.get("/register",(req,res)=>{
     res.render("user-personal-information",{user: null})
 })
 
-router.get("/home",(req,res)=>{
+router.get("/all",(req,res)=>{
     if(req.session.user ==null){
         res.redirect('/');
     }else{
         User.find({})
         .then(users => {
           if (users && users.length > 0) {
-            const page = parseInt(req.query.page) || 1; // Current page number, default to 1
-            const pageSize = 4; // Number of items per page
+            const page = parseInt(req.query.page) || 1; 
+            const pageSize = 4; 
             const startIndex = (page - 1) * pageSize;
             const endIndex = page * pageSize;
     
-            const paginatedData = users.slice(startIndex, endIndex); // Get data for the current page
-            const totalPages = Math.ceil(users.length / pageSize); // Calculate total pages
-    
+            const paginatedData = users.slice(startIndex, endIndex); 
+            const totalPages = Math.ceil(users.length / pageSize); 
             const loggedInUser = req.session.user;
-            res.render("homepage",{user: loggedInUser,
+            res.render("user-list",{user: loggedInUser,
                 data: paginatedData,
                 totalPages,
                 currentPage: page
@@ -174,7 +221,7 @@ router.post('/search', async (req, res) => {
     
             
             const loggedInUser = req.session.user;
-            res.render("homepage",{user: loggedInUser,
+            res.render("user-list",{user: loggedInUser,
                 data: paginatedData,
                 totalPages,
                 currentPage: page
@@ -192,7 +239,19 @@ router.post('/search', async (req, res) => {
 router.get("/profile",(req,res)=>{
     const loggedInUser = req.session.user;
     console.log(loggedInUser)
-    res.render("profile",{user: loggedInUser})
+
+    const page = parseInt(req.query.page) || 1; 
+    const pageSize = 4; 
+    const startIndex = (page - 1) * pageSize;
+    const endIndex = page * pageSize;
+
+    const paginatedData = loggedInUser.posts.slice(startIndex, endIndex); 
+    const totalPages = Math.ceil(loggedInUser.posts.length / pageSize);
+            
+    res.render("profile",{user: loggedInUser,
+        data: paginatedData,
+        totalPages,
+        currentPage: page})
 })
 
 router.get("/:id", async(req,res)=>{
@@ -640,6 +699,39 @@ router.post('/update-personal-info', async (req, res) => {
         } catch (err) {
             res.status(500).json({ message: err.message });
         }
+});
+
+// posting
+
+router.post('/add-post', async (req, res) => {
+    const loggedInUser = req.session.user;
+    const post = {
+        "creationDate" : new Date(),
+        "content":req.body.post,
+        "likes":0,
+        "creatorName":loggedInUser.name,
+        "creatorImage":loggedInUser.image,
+        "comments": []
+    }
+
+    if(loggedInUser.posts == null){
+        loggedInUser['posts'] = [post]
+    }else{
+        loggedInUser.posts.push(post)
+    }
+
+    console.log(loggedInUser.posts)
+    try {
+        const updatedUser = await User.findOneAndUpdate({ _id: loggedInUser._id }, loggedInUser, { new: true });
+
+        if (!updatedUser) {
+        return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.redirect("/home")
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 });
 
 module.exports = router;

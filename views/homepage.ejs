@@ -1,166 +1,137 @@
 <%- include('partials/header-logged-in'); -%>
+
     <div class="row">
-        <div id="services" class="services col-md-3 col-lg-3 d-flex">
-            <div class="col-md-3 d-none d-md-block services flex-grow-1">
-                <div class="d-flex h-100" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="icon-box flex-grow-1">
-                        <div class=" align-items-center justify-content-center about-img mb-3"
+        <div class="col-md-3 col-lg-3 d-none d-md-inline d-flex">
+            <section id="faq" class="faq section-bg flex-grow-1">
+                    <div class="container" data-aos="fade-up">
+                        <div class="d-flex align-items-center justify-content-center about-img mb-3"
                             onclick="redirectToProfile()">
-                            <img src="<%= user.image %>" class="img-fluid" alt="" data-aos="zoom-in" width="200"
+                            <img src="<%= user.image %>" class="img-fluid m-3" alt="" data-aos="zoom-in" width="200"
                                 height="200">
                         </div>
-                        <div>
-                            <h4 class="title">
-                                <%= user.name %>
-                            </h4>
-                            <p class="description" style="font-style: italic;font-size: 14px;
-                                font-weight: 700;
-                                padding-bottom: 0;
-                                line-height: 1px;
-                                margin-bottom: 15px;
-                                color: #c2b7b1;">
-                                <%= user.email %>
-                            </p> <br>
+                        <div class="section-title">
+                            <p> <%= user.name %></p>
+                           
                         </div>
-                        <a href="/logout" class="logout-button">Logout</a>
-
+                    
+                        <div class="d-flex align-self-end justify-content-center about-img mb-3">
+                            <section id="contact" class="contact">
+                                <div class="container" data-aos="fade-up">
+                          
+                                  <div class="info">
+                                    <div class="address">
+                                      <i class="bi bi-geo-alt"></i>
+                                      <h4>Location:</h4>
+                                      <p><%= user.address %></p>
+                                    </div>
+                          
+                                    <div class="email">
+                                      <i class="bi bi-envelope"></i>
+                                      <h4>Email:</h4>
+                                      <p><%= user.email %></p>
+                                    </div>
+                          
+                                    <div class="phone">
+                                      <i class="bi bi-phone"></i>
+                                      <h4>Call:</h4>
+                                      <p><%= user.phone %></p>
+                                    </div>
+                          
+                                  </div>
+                          
+                                </div>
+                              </section>
+                        </div>
                     </div>
-
-                </div>
+                    </section>
             </div>
-        </div>
 
         <div class="col-md-9 col-lg-9 ">
-            <section id="team" class="team">
-                <div class="container">
+            <section id="services" class="services">
+                <div class="container" data-aos="fade-up">
+          
+                  <div class="section-title">
+                    <h2>Homepage</h2>
+                    <p>Check out what people are saying</p>
+                  </div>
 
-                    <div class="section-title" data-aos="fade-up">
-                        <h2>Homepage</h2>
-                        <p>Explore New Opportunities</p>
-                    </div>
-                    <hr class="hr" />
-                    <div id="footer">
-                        <div class="footer-newsletter flex-fill">
-                            <div class="container">
-                                <div class="row justify-content-center">
-                                    <div class="col-lg-6">
-                                        <h4 style="
-                        font-weight: 700;">Search</h4>
-                                        <p style="font-size: 18px;
-                        font-weight: 700;
-                        padding-bottom: 0;
-                        line-height: 1px;
-                        margin-bottom: 15px;
-                        color: #c2b7b1;">Search people by name, skill, project...etc.</p>
-                                        <form id="searchForm" action="/search" method="post">
-                                            <input type="text" id="keywords" name="keywords"
-                                                placeholder="Search users...">
-                                            <input type="submit" value="Search">
-                                        </form>
-                                    </div>
+                  <hr class="hr" />
+                    <section id="contact" class="contact">
+                        <div class="container" data-aos="fade-up">
+                
+                        <div>
+                
+                            <div class="d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
+                            <form action="add-post" method="post" role="form" class="php-email-form">
+                                <div class="form-group mt-3">
+                                <label for="name" class="form-label">Create New Post</label>
+                                <textarea id="textInput" class="form-control" name="post" rows="3" required></textarea>
                                 </div>
+                                <div class="d-flex flex-row-reverse"><button id="submitButton" type="submit">Post</button></div>
+                            </form>
                             </div>
+                
                         </div>
-                    </div>
-
-                    <div id="card">
-                        <div class="row">
-
-                            <% data.forEach(item=> { %>
-                               
-                                    <div class="col-xl-3 col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="100">
-                                        
-
-                                        <a href="<%= item.id %>">
-                                            <div class="member">
-                                                <img src="<%= item.image %>" class="img-fluid" alt="">
-                                                <div class="member-info">
-                                                    <div class="member-info-content">
-                                                        <h4>
-                                                            <%= item.name %>
-                                                        </h4>
-                                                        <span>
-                                                            <% latestJob=null; // Find the job with the latest endDate
-                                                                item.jobs.forEach(job=> {
-                                                                if (!latestJob || (job.endDate && new Date(job.endDate.$date) > new
-                                                                Date(latestJob.endDate.$date))) {
-                                                                latestJob = job;
-                                                                }
-                                                                });
-            
-                                                                // If no job with endDate is found, find a job with null endDate
-                                                                if (!latestJob) {
-                                                                latestJob = jobs.find(job => !job.endDate);
-                                                                }
-                                                                %>
-                                                                <% if (latestJob) { %>
-                                                                    <p>
-                                                                        <%= latestJob.jobtitle %>
-                                                                    </p>
-                                                                    <p>
-                                                                        <%= latestJob.employer %>
-                                                                    </p>
-                                                                    <!-- Display other job details as needed -->
-                                                                    <% } else { %>
-                                                                        <!-- No job found -->
-                                                                        <p>No job information available.</p>
-                                                                        <% } %>
-                                                        </span>
-                                                    </div>
-                                                    <div class="social">
-                                                        <a href=""><i class="bi bi-twitter"></i></a>
-                                                        <a href=""><i class="bi bi-facebook"></i></a>
-                                                        <a href=""><i class="bi bi-instagram"></i></a>
-                                                        <a href=""><i class="bi bi-linkedin"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </a>
+                
+                        </div>
+                    </section>
+                    <% data.forEach(item=> { %>
+                        <div class="d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+                          <div class="justify-content-start flex-grow-1">
+                                <div class="row">
+                                  <div class="post col-md-12">
+                                    <div class="post-text">
+                                      <img src="<%= item.creatorImage %>" class="img-fluid m-3" alt="" width="70"
+                                      height="70">
+                                      <div>
+                                          <h4 class="poster-name"><a href=""><%= item.creatorName %></a></h4>
+                                          <p><%= item.creationDate.toLocaleDateString('en-GB') %></p>
+                                      </div>
                                     </div>
-                        
-                                
-                                <% }); %>
-    
+                                    <p class="content"><%= item.content %></p>      
+                                    <a  class="getstarted" style="margin: 14px;" href="#"><i class="bi bi-hand-thumbs-up"></i><span style="margin-left: 4px;">Like</span> </a>                           
+                                   </div>
+                                </div>
+                          </div>
                         </div>
-                    </div>
+                        <% }); %>
+                </div>
+              </section>
 
-                    <!-- Pagination -->
-                    <div class="d-flex justify-content-center">
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination custom-pagination">
-                                <% if (currentPage> 1) { %>
-                                    <li class="page-item">
-                                        <a class="page-link" href="/home?page=<%= currentPage - 1 %>"
-                                            aria-label="Previous">
-                                            <span aria-hidden="true">&laquo;</span>
-                                            <span class="visually-hidden">Previous</span>
+              <!-- Pagination -->
+              <div class="d-flex justify-content-center">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination custom-pagination">
+                        <% if (currentPage> 1) { %>
+                            <li class="page-item">
+                                <a class="page-link" href="/home?page=<%= currentPage - 1 %>"
+                                    aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="visually-hidden">Previous</span>
+                                </a>
+                            </li>
+                            <% } %>
+
+                                <% for(let i=1; i<=totalPages; i++) { %>
+                                    <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                                        <a class="page-link" href="/home?page=<%= i %>">
+                                            <%= i %>
                                         </a>
                                     </li>
                                     <% } %>
 
-                                        <% for(let i=1; i<=totalPages; i++) { %>
-                                            <li class="page-item <%= i === currentPage ? 'active' : '' %>">
-                                                <a class="page-link" href="/home?page=<%= i %>">
-                                                    <%= i %>
+                                        <% if (currentPage < totalPages) { %>
+                                            <li class="page-item">
+                                                <a class="page-link" href="/home?page=<%= currentPage + 1 %>"
+                                                    aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                    <span class="visually-hidden">Next</span>
                                                 </a>
                                             </li>
                                             <% } %>
-
-                                                <% if (currentPage < totalPages) { %>
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="/home?page=<%= currentPage + 1 %>"
-                                                            aria-label="Next">
-                                                            <span aria-hidden="true">&raquo;</span>
-                                                            <span class="visually-hidden">Next</span>
-                                                        </a>
-                                                    </li>
-                                                    <% } %>
-                            </ul>
-                        </nav>
-                    </div>
-
-                </div>
-            </section>
+                    </ul>
+                </nav>
+            </div>
         </div>
     </div>
 
@@ -170,4 +141,20 @@
             function redirectToProfile() {
                 window.location.href = '/profile'; 
             }
+
+            $(document).ready(function() {
+                $('#textInput').on('input', function() {
+                    var textValue = $(this).val().trim();
+                    if (textValue === '') {
+                    $('#submitButton').prop('disabled', true);
+                    } else {
+                    $('#submitButton').prop('disabled', false);
+                    }
+                });
+
+                // Disable submit button on page load if text area is initially empty
+                if ($('#textInput').val().trim() === '') {
+                    $('#submitButton').prop('disabled', true);
+                }
+                });
         </script>

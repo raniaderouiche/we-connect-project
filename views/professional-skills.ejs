@@ -5,11 +5,14 @@
         <p>Professional Skills</p>
       </div>
     <div class="container">
-        <form action="/languages" method="post" role="form" class="php-email-form">
+        <form id="items-form" action="/languages" method="post" role="form" class="php-email-form">
             <div id="skillContainer">
                 <div class="mb-4 ml-5">
                     <label class="form-label" id="skill-label">Skill</label>
                     <input type="text" name="skill" class="form-control" id="skill" aria-describedby="skill" placeholder="Example: MS Word/Excel/Python...etc." required>
+                </div>
+                <div class="d-flex flex-row-reverse">
+                    <button type="button" id="deleteitem" class=" mb-4">Delete</button>
                 </div>
             </div>
             <div class="text-center">
@@ -26,14 +29,27 @@
   
   <script>
     $(document).ready(function () {
+        var fieldCount = $("#skillContainer div").length 
+
         var skillCounter = 1;
         $('#addSkill').click(function () {
             skillCounter++;
+            fieldCount = fieldCount + 2
             var newSkill = $('#skillContainer').first().clone();
             newSkill.find('input').val('');
             newSkill.find('#skill-label').text('Skill ' + skillCounter);
             newSkill.prepend('<hr class="hr" />');
             newSkill.insertBefore($('.text-center'));
         });
+        $("#items-form").on("click", "#deleteitem", function (e) {
+                    e.preventDefault();
+                    if (fieldCount > 2) {
+                        $(this).parent().parent().remove();
+                        fieldCount = fieldCount - 2
+
+                    } else {
+                        alert("At least one field is required.");
+                    }
+                });
     });
 </script>

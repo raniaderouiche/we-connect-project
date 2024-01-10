@@ -1,5 +1,23 @@
 const mongoose = require('mongoose');
 
+const commentSchema = new mongoose.Schema({
+  content: String,
+  creationDate: Date,
+  creatorName:String,
+  creatorId:String,
+  likes: Number
+});
+
+const postSchema = new mongoose.Schema({
+  content: String,
+  creationDate: Date,
+  creatorName:String,
+  creatorImage:String,
+  likes: Number,
+  comments:[commentSchema]
+});
+
+
 const degreeSchema = new mongoose.Schema({
   degreeName: String,
   school: String,
@@ -37,7 +55,8 @@ const userSchema = new mongoose.Schema({
   skills: [String],
   languages: [String],
   jobs: [jobSchema],
-  projects: [projectSchema]
+  projects: [projectSchema],
+  posts: [postSchema]
 });
 
 const User = mongoose.model('User', userSchema);

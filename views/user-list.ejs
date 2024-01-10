@@ -1,0 +1,189 @@
+<%- include('partials/header-logged-in'); -%>
+    <div class="row">
+        <div class="col-md-3 col-lg-3 d-flex">
+        <section id="faq" class="faq section-bg flex-grow-1">
+                <div class="container" data-aos="fade-up">
+                    <div class="d-flex align-items-center justify-content-center about-img mb-3"
+                        onclick="redirectToProfile()">
+                        <img src="<%= user.image %>" class="img-fluid m-3" alt="" data-aos="zoom-in" width="200"
+                            height="200">
+                    </div>
+                    <div class="section-title">
+                        <p> <%= user.name %></p>
+                       
+                    </div>
+                
+                    <div class="d-flex align-self-end justify-content-center about-img mb-3">
+                        <section id="contact" class="contact">
+                            <div class="container" data-aos="fade-up">
+                      
+                              <div class="info">
+                                <div class="address">
+                                  <i class="bi bi-geo-alt"></i>
+                                  <h4>Location:</h4>
+                                  <p><%= user.address %></p>
+                                </div>
+                      
+                                <div class="email">
+                                  <i class="bi bi-envelope"></i>
+                                  <h4>Email:</h4>
+                                  <p><%= user.email %></p>
+                                </div>
+                      
+                                <div class="phone">
+                                  <i class="bi bi-phone"></i>
+                                  <h4>Call:</h4>
+                                  <p><%= user.phone %></p>
+                                </div>
+                      
+                              </div>
+                      
+                            </div>
+                          </section>
+                    </div>
+                </div>
+                </section>
+        </div>
+        
+
+        <div class="col-md-9 col-lg-9 ">
+            <section id="team" class="team">
+                <div class="container">
+
+                    <div class="section-title" data-aos="fade-up">
+                        <h2>Search</h2>
+                        <p>Explore New Opportunities</p>
+                    </div>
+                    <hr class="hr" />
+                    <div id="footer">
+                        <div class="footer-newsletter flex-fill">
+                            <div class="container">
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-6">
+                                        <h4 style="
+                        font-weight: 700;">Search</h4>
+                                        <p style="font-size: 18px;
+                        font-weight: 700;
+                        padding-bottom: 0;
+                        line-height: 1px;
+                        margin-bottom: 15px;
+                        color: #c2b7b1;">Search people by name, skill, project...etc.</p>
+                                        <form id="searchForm" action="/search" method="post">
+                                            <input type="text" id="keywords" name="keywords"
+                                                placeholder="Search users...">
+                                            <input type="submit" value="Search">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="card">
+                        <div class="row">
+
+                            <% data.forEach(item=> { %>
+                               
+                                    <div class="col-xl-3 col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="100">
+                                        
+
+                                        <a href="<%= item.id %>">
+                                            <div class="member">
+                                                <img src="<%= item.image %>" class="img-fluid" alt="">
+                                                <div class="member-info">
+                                                    <div class="member-info-content">
+                                                        <h4>
+                                                            <%= item.name %>
+                                                        </h4>
+                                                        <span>
+                                                            <% latestJob=null; // Find the job with the latest endDate
+                                                                item.jobs.forEach(job=> {
+                                                                if (!latestJob || (job.endDate && new Date(job.endDate.$date) > new
+                                                                Date(latestJob.endDate.$date))) {
+                                                                latestJob = job;
+                                                                }
+                                                                });
+            
+                                                                // If no job with endDate is found, find a job with null endDate
+                                                                if (!latestJob) {
+                                                                latestJob = jobs.find(job => !job.endDate);
+                                                                }
+                                                                %>
+                                                                <% if (latestJob) { %>
+                                                                    <p>
+                                                                        <%= latestJob.jobtitle %>
+                                                                    </p>
+                                                                    <p>
+                                                                        <%= latestJob.employer %>
+                                                                    </p>
+                                                                    <!-- Display other job details as needed -->
+                                                                    <% } else { %>
+                                                                        <!-- No job found -->
+                                                                        <p>No job information available.</p>
+                                                                        <% } %>
+                                                        </span>
+                                                    </div>
+                                                    <div class="social">
+                                                        <a href=""><i class="bi bi-twitter"></i></a>
+                                                        <a href=""><i class="bi bi-facebook"></i></a>
+                                                        <a href=""><i class="bi bi-instagram"></i></a>
+                                                        <a href=""><i class="bi bi-linkedin"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                        
+                                
+                                <% }); %>
+    
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="d-flex justify-content-center">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination custom-pagination">
+                                <% if (currentPage> 1) { %>
+                                    <li class="page-item">
+                                        <a class="page-link" href="/all?page=<%= currentPage - 1 %>"
+                                            aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                            <span class="visually-hidden">Previous</span>
+                                        </a>
+                                    </li>
+                                    <% } %>
+
+                                        <% for(let i=1; i<=totalPages; i++) { %>
+                                            <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                                                <a class="page-link" href="/all?page=<%= i %>">
+                                                    <%= i %>
+                                                </a>
+                                            </li>
+                                            <% } %>
+
+                                                <% if (currentPage < totalPages) { %>
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="/all?page=<%= currentPage + 1 %>"
+                                                            aria-label="Next">
+                                                            <span aria-hidden="true">&raquo;</span>
+                                                            <span class="visually-hidden">Next</span>
+                                                        </a>
+                                                    </li>
+                                                    <% } %>
+                            </ul>
+                        </nav>
+                    </div>
+
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <%- include('partials/footer'); -%>
+
+        <script>
+            function redirectToProfile() {
+                window.location.href = '/profile'; 
+            }
+        </script>

@@ -1,4 +1,4 @@
-<%- include('partials/header'); -%>
+<%- include('partials/header-logged-in'); -%>
 
     <div class="row">
         <div class="col-md-3 col-lg-3 d-flex">
@@ -83,6 +83,7 @@
                     jobCounter++;
                     var newjob = $('#jobContainer').first().clone();
                     newjob.find('input').val('');
+                    fieldCount = fieldCount + 6
                     newjob.find('#end').prop('disabled', false).prop('required', true).prop('required', true);
                     newjob.find('#toggleCheckbox').prop('checked', false);
                     newjob.prepend('<hr class="hr" />');
